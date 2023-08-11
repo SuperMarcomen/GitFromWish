@@ -12,28 +12,36 @@ public class DiskRepositoryManager implements RepositoryManager {
 
     @Override
     public void createRepository() {
-        createHiddenFolder("MDMA");
+        tryCreateHiddenFolder("MDMA");
     }
 
-    private void createHiddenFolder(String name) {
-        Path repoPath = Paths.get(getWorkingPath(), name);
-        if (Files.exists(repoPath)) return;
+    private void tryCreateHiddenFolder(String name) {
         try {
-            Files.createDirectory(repoPath);
+            createHiddenFolder(name);
         } catch (IOException e) {
             Logger.error("An error occurred while create the repository directory!");
         }
-        hideFile(repoPath);
     }
 
-    private void hideFile(Path path) {
+    private void createHiddenFolder(String name) throws IOException {
+        Path repoPath = Paths.get(getWorkingPath(), name);
+        if (Files.exists(repoPath)) return;
+        Files.createDirectory(repoPath);
+        tryHideFile(repoPath);
+    }
+
+    private void tryHideFile(Path path) {
         try {
-            DosFileAttributes attrs = Files.readAttributes(path, DosFileAttributes.class);
-            if (!attrs.isHidden()) {
-                Files.setAttribute(path, "dos:hidden", true);
-            }
+            hideFile(path);
         } catch (IOException e) {
             Logger.error("An error occurred while hiding the repository directory!");
+        }
+    }
+
+    private void hideFile(Path path) throws IOException {
+        DosFileAttributes attrs = Files.readAttributes(path, DosFileAttributes.class);
+        if (!attrs.isHidden()) {
+            Files.setAttribute(path, "dos:hidden", true);
         }
     }
 
