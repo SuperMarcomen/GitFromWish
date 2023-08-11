@@ -1,12 +1,13 @@
 package it.marcodemartino.gitfromwish.entities;
 
-public class Blob {
+public class Blob extends MDMAEntity {
 
-    private final String name;
-    private final String content;
+    String string;
+    private final byte[] content;
 
-    public Blob(String name, String content) {
-        this.name = name;
+    public Blob(String name, byte[] content) {
+        super(name);
+        string = new String(content);
         this.content = content;
     }
 
@@ -14,7 +15,12 @@ public class Blob {
         return name;
     }
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
+    }
+
+    @Override
+    public String print() {
+        return "blob: " + name;
     }
 }

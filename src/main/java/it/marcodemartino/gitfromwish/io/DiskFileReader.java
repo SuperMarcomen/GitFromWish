@@ -1,5 +1,7 @@
 package it.marcodemartino.gitfromwish.io;
 
+import it.marcodemartino.gitfromwish.logger.Logger;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,12 +13,28 @@ import java.util.stream.Stream;
 public class DiskFileReader implements FileReader {
 
     @Override
-    public Set<Path> getFilesFromWorkingFolder() {
-        try (Stream<Path> stream = Files.list(Paths.get(""))) {
+    public byte[] readFile(Path path) {
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            Logger.error("An error occurred while reading a file!");
+        }
+        return new byte[0];
+    }
+
+    @Override
+    public Set<Path> getFilesFromFolder(Path path) {
+        try (Stream<Path> stream = Files.list(path)) {
             return stream
                     .collect(Collectors.toSet());
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            Logger.error("An error occurred reading from the working folder!");
         }
         return null;
+    }
+
+    @Override
+    public Set<Path> getFilesFromWorkingFolder() {
+        return getFilesFromFolder(Paths.get(""));
     }
 }
