@@ -1,5 +1,9 @@
 package it.marcodemartino.gitfromwish.entities;
 
+import it.marcodemartino.gitfromwish.encryption.Hashing;
+import it.marcodemartino.gitfromwish.visitors.EntityVisitor;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +23,23 @@ public class Tree extends MDMAEntity {
 
     @Override
     public String print() {
+        return print(blobs.values(), trees.values());
+    }
+
+    public static String generateHash(Hashing hashing, Collection<Blob> blobsList, Collection<Tree> treesList) {
+        return hashing.hash(print(blobsList, treesList).getBytes());
+    }
+
+    private static String print(Collection<Blob> blobsList, Collection<Tree> treesList) {
         StringBuilder stringBuilder = new StringBuilder();
-        blobs.values().forEach(blob -> stringBuilder.append(blob.print()).append(System.lineSeparator()));
-        trees.values().forEach(tree -> stringBuilder.append(tree.flatPrint()).append(System.lineSeparator()));
+        blobsList.forEach(blob -> stringBuilder.append(blob.print()).append(System.lineSeparator()));
+        treesList.forEach(tree -> stringBuilder.append(tree.flatPrint()).append(System.lineSeparator()));
         return stringBuilder.toString();
+    }
+
+    @Override
+    public void accept(EntityVisitor visitor) {
+        visitor.visit(this);
     }
 
     private String flatPrint() {
@@ -41,11 +58,19 @@ public class Tree extends MDMAEntity {
         return blobs.get(name);
     }
 
+    public Collection<Blob> getBlobs() {
+        return blobs.values();
+    }
+
     public void addTree(Tree tree) {
         trees.put(tree.getName(), tree);
     }
 
     public Tree getTree(String name) {
         return trees.get(name);
+    }
+
+    public Collection<Tree> getTrees() {
+        return trees.values();
     }
 }

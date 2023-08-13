@@ -1,5 +1,8 @@
 package it.marcodemartino.gitfromwish.entities;
 
+import it.marcodemartino.gitfromwish.encryption.Hashing;
+import it.marcodemartino.gitfromwish.visitors.EntityVisitor;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,7 +12,7 @@ public class Commit extends MDMAEntity {
     author: %s
     date: %s
     %s""";
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
     private final Tree mainTree;
     private final String author;
     private final LocalDateTime dateTime;
@@ -39,10 +42,23 @@ public class Commit extends MDMAEntity {
 
     @Override
     public String print() {
+        return print(author, dateTime, mainTree);
+    }
+
+    public static String generateHash(Hashing hashing, String author, LocalDateTime dateTime, Tree mainTree) {
+        return hashing.hash(print(author, dateTime, mainTree).getBytes());
+    }
+
+    private static String print(String author, LocalDateTime dateTime, Tree mainTree) {
         return PRINT_MESSAGE.formatted(
                 author,
-                dateFormatter.format(dateTime),
+                DATE_FORMATTER.format(dateTime),
                 mainTree.getName()
         );
+    }
+
+    @Override
+    public void accept(EntityVisitor visitor) {
+        visitor.visit(this);
     }
 }

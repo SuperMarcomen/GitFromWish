@@ -1,5 +1,7 @@
 package it.marcodemartino.gitfromwish.entities;
 
+import it.marcodemartino.gitfromwish.visitors.EntityVisitor;
+
 public class Blob extends MDMAEntity {
 
     String string;
@@ -22,5 +24,10 @@ public class Blob extends MDMAEntity {
     @Override
     public String print() {
         return "blob: " + name;
+    }
+
+    @Override
+    public void accept(EntityVisitor visitor) {
+        visitor.visit(this);
     }
 }

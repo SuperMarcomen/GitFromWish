@@ -25,7 +25,12 @@ public class CommitBuilder extends Builder<Commit> {
     Commit build(Path path) {
         Tree mainTree = treeBuilder.build(path);
         currentDateTime = LocalDateTime.now();
-        return new Commit(generateHash(mainTree), mainTree, author, currentDateTime);
+        return new Commit(
+                Commit.generateHash(hashing, author, currentDateTime, mainTree),
+                mainTree,
+                author,
+                currentDateTime
+        );
     }
 
     private String generateHash(Tree mainTree) {

@@ -1,5 +1,7 @@
 package it.marcodemartino.gitfromwish.entities;
 
+import it.marcodemartino.gitfromwish.visitors.EntityVisitor;
+
 public abstract class MDMAEntity {
 
     protected final String name;
@@ -9,4 +11,6 @@ public abstract class MDMAEntity {
     }
 
     public abstract String print();
+
+    public abstract void accept(EntityVisitor visitor);
 }

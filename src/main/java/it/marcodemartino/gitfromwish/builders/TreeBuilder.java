@@ -36,13 +36,6 @@ public class TreeBuilder extends Builder<Tree> {
             }
         }
 
-        String hash = generateHash(blobs, subTrees);
-        return new Tree(hash, blobs, subTrees);
-    }
-
-    private String generateHash(List<Blob> blobs, List<Tree> subTrees) {
-        Tree tempTree = new Tree("", blobs, subTrees);
-        String hashesString = tempTree.print();
-        return hashing.hash(hashesString.getBytes());
+        return new Tree(Tree.generateHash(hashing, blobs, subTrees), blobs, subTrees);
     }
 }
