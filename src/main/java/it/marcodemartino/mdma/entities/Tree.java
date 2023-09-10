@@ -34,7 +34,7 @@ public class Tree extends MDMAPathEntity {
         StringBuilder stringBuilder = new StringBuilder();
         blobsList.forEach(blob -> stringBuilder.append(blob.print()).append(System.lineSeparator()));
         treesList.forEach(tree -> stringBuilder.append(tree.flatPrint()).append(System.lineSeparator()));
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Tree extends MDMAPathEntity {
     }
 
     private String flatPrint() {
-        return "tree: " + name;
+        return "tree:" + name;
     }
 
     public String getName() {

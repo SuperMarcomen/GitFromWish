@@ -17,7 +17,7 @@ public class Blob extends MDMAPathEntity {
 
     @Override
     public String print() {
-        return "blob: " + name;
+        return "blob:" + name;
     }
 
     @Override

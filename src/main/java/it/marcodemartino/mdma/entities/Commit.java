@@ -8,10 +8,9 @@ import java.time.format.DateTimeFormatter;
 
 public class Commit extends MDMAEntity {
 
-    private static final String PRINT_MESSAGE = """
-    author: %s
-    date: %s
-    %s""";
+    private static final String PRINT_MESSAGE = "author;%s" + System.lineSeparator()
+            + "date;%s" + System.lineSeparator()
+            + "%s";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
     private final Tree mainTree;
     private final String author;

@@ -1,8 +1,12 @@
 package it.marcodemartino.mdma.commits;
 
 import it.marcodemartino.mdma.entities.Blob;
+import it.marcodemartino.mdma.entities.FolderNames;
 import it.marcodemartino.mdma.entities.References;
 import it.marcodemartino.mdma.entities.Tree;
+import it.marcodemartino.mdma.io.FileReader;
+
+import java.nio.file.Paths;
 
 public class ReferenceTracker {
 
@@ -10,6 +14,19 @@ public class ReferenceTracker {
 
     public ReferenceTracker() {
         references = new References();
+    }
+
+    public void load(FileReader fileReader) {
+        String refs = new String(fileReader.readFile(Paths.get(FolderNames.REFS.getFolderName().toString(), "refs")));
+        String[] lines = refs.split(System.lineSeparator());
+        for (String line : lines) {
+            String[] args = line.split(":");
+            references.addObject(args[0], args[1]);
+        }
+    }
+
+    public String getObjectPath(String hash) {
+        return references.getObject(hash);
     }
 
     public void addBlob(String hash, Blob blob) {

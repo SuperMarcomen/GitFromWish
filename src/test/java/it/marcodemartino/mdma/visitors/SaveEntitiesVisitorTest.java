@@ -84,7 +84,8 @@ class SaveEntitiesVisitorTest {
     @Test
     void visitRealCommit() {
         // The visit of blobs and trees is automatically tested when visiting commits
-        Commit realCommit = commitBuilder.build(Paths.get(""));
+        commitBuilder.setAuthor("Marco");
+        Commit realCommit = commitBuilder.build(Paths.get("playground"));
 
         ReferenceTracker realReferenceTracker = new ReferenceTracker();
         realReferenceTracker.addTree(realCommit.getMainTree().getName(), realCommit.getMainTree());
