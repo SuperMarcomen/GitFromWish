@@ -10,6 +10,10 @@ public abstract class MDMAEntity {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public abstract String print();
 
     public abstract void accept(EntityVisitor visitor);

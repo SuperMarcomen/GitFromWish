@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Tree extends MDMAEntity {
+public class Tree extends MDMAPathEntity {
 
     private final Map<String, Blob> blobs;
     private final Map<String, Tree> trees;
 
-    public Tree(String name, List<Blob> blobsList, List<Tree> treesList) {
-        super(name);
+    public Tree(String name, String path, List<Blob> blobsList, List<Tree> treesList) {
+        super(name, path);
         blobs = new HashMap<>();
         blobsList.forEach(blob -> blobs.put(blob.getName(), blob));
         trees = new HashMap<>();

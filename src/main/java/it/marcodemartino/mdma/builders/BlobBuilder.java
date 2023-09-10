@@ -16,6 +16,6 @@ public class BlobBuilder extends Builder<Blob> {
     public Blob build(Path path) {
         byte[] content = fileReader.readFile(path);
         String hash = hashing.hash(content);
-        return new Blob(hash, content);
+        return new Blob(hash, content, path.toString());
     }
 }

@@ -1,11 +1,11 @@
 package it.marcodemartino.mdma.io;
 
+import it.marcodemartino.mdma.entities.FolderNames;
 import it.marcodemartino.mdma.logger.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DiskFileWriter implements FileWriter {
 
@@ -15,9 +15,9 @@ public class DiskFileWriter implements FileWriter {
 
     private void tryCreateFolder() {
         try {
-            Files.createDirectories(Paths.get("MDMA", "blob"));
-            Files.createDirectories(Paths.get("MDMA", "tree"));
-            Files.createDirectories(Paths.get("MDMA", "commit"));
+            for (FolderNames folder : FolderNames.values()) {
+                Files.createDirectories(folder.getFolderName());
+            }
         } catch (IOException e) {
             Logger.error("An error occurred while creating the folders for the entities!");
         }

@@ -24,10 +24,6 @@ public class Commit extends MDMAEntity {
         this.dateTime = dateTime;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Tree getMainTree() {
         return mainTree;
     }

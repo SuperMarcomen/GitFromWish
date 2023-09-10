@@ -14,5 +14,5 @@ public abstract class Builder<T> {
         this.fileReader = fileReader;
         this.hashing = hashing;
     }
-    abstract T build(Path path);
+    public abstract T build(Path path);
 }

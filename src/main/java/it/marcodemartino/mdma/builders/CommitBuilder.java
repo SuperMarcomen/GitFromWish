@@ -22,7 +22,7 @@ public class CommitBuilder extends Builder<Commit> {
     }
 
     @Override
-    Commit build(Path path) {
+    public Commit build(Path path) {
         Tree mainTree = treeBuilder.build(path);
         currentDateTime = LocalDateTime.now();
         return new Commit(
@@ -31,12 +31,6 @@ public class CommitBuilder extends Builder<Commit> {
                 author,
                 currentDateTime
         );
-    }
-
-    private String generateHash(Tree mainTree) {
-        Commit tempCommit = new Commit("", mainTree, author, currentDateTime);
-        String hashesString = tempCommit.print();
-        return hashing.hash(hashesString.getBytes());
     }
 
     public void setAuthor(String author) {

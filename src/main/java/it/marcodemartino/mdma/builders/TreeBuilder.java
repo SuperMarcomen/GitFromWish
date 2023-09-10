@@ -21,7 +21,7 @@ public class TreeBuilder extends Builder<Tree> {
     }
 
     @Override
-    Tree build(Path path) {
+    public Tree build(Path path) {
         Set<Path> files = fileReader.getFilesFromFolder(path);
         List<Blob> blobs = new ArrayList<>();
         List<Tree> subTrees = new ArrayList<>();
@@ -36,6 +36,6 @@ public class TreeBuilder extends Builder<Tree> {
             }
         }
 
-        return new Tree(Tree.generateHash(hashing, blobs, subTrees), blobs, subTrees);
+        return new Tree(Tree.generateHash(hashing, blobs, subTrees), path.toString(), blobs, subTrees);
     }
 }

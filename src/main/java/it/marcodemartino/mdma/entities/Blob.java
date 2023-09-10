@@ -2,19 +2,13 @@ package it.marcodemartino.mdma.entities;
 
 import it.marcodemartino.mdma.visitors.EntityVisitor;
 
-public class Blob extends MDMAEntity {
+public class Blob extends MDMAPathEntity {
 
-    String string;
     private final byte[] content;
 
-    public Blob(String name, byte[] content) {
-        super(name);
-        string = new String(content);
+    public Blob(String name, byte[] content, String path) {
+        super(name, path);
         this.content = content;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public byte[] getContent() {
