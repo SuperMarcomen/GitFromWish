@@ -54,6 +54,6 @@ class CommitsHandlerTest {
     @Test
     @Order(2)
     void restoreCommit() {
-        commitsHandler.restoreCommit("ec22591bead7d69f777e39bd028dfe53a1d1c36d");
+        commitsHandler.restoreCommit("a670117bec77257dc0f35cd5f3b6142499c0a575");
     }
 }

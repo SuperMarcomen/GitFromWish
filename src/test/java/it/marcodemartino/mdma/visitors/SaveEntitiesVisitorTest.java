@@ -14,11 +14,12 @@ import it.marcodemartino.mdma.io.DiskFileReader;
 import it.marcodemartino.mdma.io.DiskFileWriter;
 import it.marcodemartino.mdma.io.FileReader;
 import it.marcodemartino.mdma.io.FileWriter;
+import it.marcodemartino.mdma.repository.DiskRepositoryManager;
+import it.marcodemartino.mdma.repository.RepositoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,6 +40,8 @@ class SaveEntitiesVisitorTest {
 
     @BeforeAll
     static void init() throws IOException {
+        RepositoryManager repositoryManager = new DiskRepositoryManager();
+        repositoryManager.createRepository();
         Files.walk(Paths.get("MDMA"))
                 .map(Path::toFile)
                 .forEach(File::delete);
@@ -51,8 +54,8 @@ class SaveEntitiesVisitorTest {
 
         String content1 = "mammt, fratt e sort";
         String content2 = "ich mehr";
-        item = new Blob(hashing.hash(content1.getBytes()), content1.getBytes(), "folder1/file1.txt");
-        subitem = new Blob(hashing.hash(content2.getBytes()), content2.getBytes(), "folder2/file2.txt");
+        item = new Blob(hashing.hash(content1.getBytes()), new ByteArrayInputStream(content1.getBytes()), "folder1/file1.txt");
+        subitem = new Blob(hashing.hash(content2.getBytes()), new ByteArrayInputStream(content2.getBytes()), "folder2/file2.txt");
         // I'm sorry... This is a war crime, but it's late and I need to test this
         subfolder = new Tree(
                 Tree.generateHash(hashing, List.of(subitem), Collections.emptyList()),
@@ -85,7 +88,7 @@ class SaveEntitiesVisitorTest {
     void visitRealCommit() {
         // The visit of blobs and trees is automatically tested when visiting commits
         commitBuilder.setAuthor("Marco");
-        Commit realCommit = commitBuilder.build(Paths.get("playground"));
+        Commit realCommit = commitBuilder.build(Paths.get(""));
 
         ReferenceTracker realReferenceTracker = new ReferenceTracker();
         realReferenceTracker.addTree(realCommit.getMainTree().getName(), realCommit.getMainTree());

@@ -23,7 +23,7 @@ public class CommitReconstructor extends Reconstructor<Commit> {
     @Override
     public Commit reconstruct(String hash) {
         Path path = Paths.get(FolderNames.COMMIT.getFolderName().toString(), hash);
-        String content = new String(fileReader.readFile(path));
+        String content = fileReader.readFileAsString(path);
         String[] lines = content.split(System.lineSeparator());
         String author = lines[0].split(";")[1];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

@@ -22,13 +22,14 @@ public class TreeReconstructor extends Reconstructor<Tree> {
     @Override
     public Tree reconstruct(String hash) {
         String path = referenceTracker.getObjectPath(hash);
-        String content = new String(fileReader.readFile(Paths.get(FolderNames.TREE.getFolderName().toString(), hash)));
+        String content = fileReader.readFileAsString(Paths.get(FolderNames.TREE.getFolderName().toString(), hash));
         String[] lines = content.split(System.lineSeparator());
         List<Blob> blobs = new ArrayList<>();
         List<Tree> trees = new ArrayList<>();
 
         for (String line : lines) {
             String[] args = line.split(":");
+            System.out.println(line);
             switch (args[0]) {
                 case "blob" -> blobs.add(blobReconstructor.reconstruct(args[1]));
                 case "tree" -> trees.add(reconstruct(args[1]));

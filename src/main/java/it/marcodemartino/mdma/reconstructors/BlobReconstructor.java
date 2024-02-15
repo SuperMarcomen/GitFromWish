@@ -5,6 +5,7 @@ import it.marcodemartino.mdma.entities.Blob;
 import it.marcodemartino.mdma.entities.FolderNames;
 import it.marcodemartino.mdma.io.FileReader;
 
+import java.io.InputStream;
 import java.nio.file.Paths;
 
 public class BlobReconstructor extends Reconstructor<Blob> {
@@ -16,7 +17,7 @@ public class BlobReconstructor extends Reconstructor<Blob> {
     @Override
     public Blob reconstruct(String hash) {
         String path = referenceTracker.getObjectPath(hash);
-        byte[] content = fileReader.readFile(Paths.get(FolderNames.BLOB.getFolderName().toString(), hash));
+        InputStream content = fileReader.readFile(Paths.get(FolderNames.BLOB.getFolderName().toString(), hash));
         return new Blob(hash, content, path);
     }
 }

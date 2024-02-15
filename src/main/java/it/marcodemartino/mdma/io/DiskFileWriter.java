@@ -4,6 +4,7 @@ import it.marcodemartino.mdma.entities.FolderNames;
 import it.marcodemartino.mdma.logger.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -13,6 +14,11 @@ public class DiskFileWriter implements FileWriter {
         for (FolderNames folder : FolderNames.values()) {
             createFolder(folder.getFolderName());
         }
+    }
+
+    @Override
+    public void writeFile(Path path, InputStream content) {
+        tryWriteInputStream(path, content);
     }
 
     @Override
@@ -30,6 +36,14 @@ public class DiskFileWriter implements FileWriter {
             Files.createDirectories(path);
         } catch (IOException e) {
             Logger.error("An error occurred while creating the folders for the entities!");
+        }
+    }
+
+    private static void tryWriteInputStream(Path path, InputStream content) {
+        try {
+            Files.copy(content, path);
+        } catch (IOException e) {
+            Logger.error("An error occurred while writing a file! ");
         }
     }
 

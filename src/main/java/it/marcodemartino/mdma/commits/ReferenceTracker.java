@@ -17,7 +17,7 @@ public class ReferenceTracker {
     }
 
     public void load(FileReader fileReader) {
-        String refs = new String(fileReader.readFile(Paths.get(FolderNames.REFS.getFolderName().toString(), "refs")));
+        String refs = fileReader.readFileAsString(Paths.get(FolderNames.REFS.getFolderName().toString(), "refs"));
         String[] lines = refs.split(System.lineSeparator());
         for (String line : lines) {
             String[] args = line.split(":");

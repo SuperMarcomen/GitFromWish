@@ -20,9 +20,9 @@ class ReferencesTest {
     @Test
     void testToString() {
         String expected = """
-                ujdseb8767h: a/path
-                kjhndjhsb876bhj: another/path
-                ngulasort: yet_another/path""";
+                ujdseb8767h:a/path
+                kjhndjhsb876bhj:another/path
+                ngulasort:yet_another/path""";
         assertEquals(normalizeLineEnds(expected), normalizeLineEnds(references.print()));
         System.out.println(references);
     }

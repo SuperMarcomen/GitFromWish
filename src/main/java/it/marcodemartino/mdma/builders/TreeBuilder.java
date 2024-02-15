@@ -1,8 +1,7 @@
 package it.marcodemartino.mdma.builders;
 
 import it.marcodemartino.mdma.encryption.Hashing;
-import it.marcodemartino.mdma.entities.Blob;
-import it.marcodemartino.mdma.entities.Tree;
+import it.marcodemartino.mdma.entities.*;
 import it.marcodemartino.mdma.io.FileReader;
 
 import java.nio.file.Files;
@@ -30,6 +29,7 @@ public class TreeBuilder extends Builder<Tree> {
         // otherwise shit goes south (hash is different even though the files are the same)
         for (Path file : files) {
             if (Files.isDirectory(file)) {
+                if (file.equals(FolderNames.MAIN.getFolderName())) continue;
                 subTrees.add(build(file));
             } else {
                 blobs.add(blobBuilder.build(file));

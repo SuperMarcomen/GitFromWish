@@ -3,6 +3,7 @@ package it.marcodemartino.mdma.io;
 import it.marcodemartino.mdma.logger.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,13 +14,25 @@ import java.util.stream.Stream;
 public class DiskFileReader implements FileReader {
 
     @Override
-    public byte[] readFile(Path path) {
+    public InputStream readFile(Path path) {
         try {
-            return Files.readAllBytes(path);
+            return Files.newInputStream(path);
         } catch (IOException e) {
             Logger.error("An error occurred while reading a file!");
+            e.printStackTrace();
         }
-        return new byte[0];
+        return InputStream.nullInputStream();
+    }
+
+    @Override
+    public String readFileAsString(Path path) {
+        try {
+            return Files.readString(path);
+        } catch (IOException e) {
+            Logger.error("An error occurred while reading a file!");
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override

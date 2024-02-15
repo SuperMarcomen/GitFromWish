@@ -4,6 +4,7 @@ import it.marcodemartino.mdma.encryption.Hashing;
 import it.marcodemartino.mdma.entities.Blob;
 import it.marcodemartino.mdma.io.FileReader;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 
 public class BlobBuilder extends Builder<Blob> {
@@ -14,7 +15,7 @@ public class BlobBuilder extends Builder<Blob> {
 
     @Override
     public Blob build(Path path) {
-        byte[] content = fileReader.readFile(path);
+        InputStream content = fileReader.readFile(path);
         String hash = hashing.hash(content);
         return new Blob(hash, content, path.toString());
     }
