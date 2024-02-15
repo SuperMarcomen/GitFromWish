@@ -5,30 +5,27 @@ import it.marcodemartino.mdma.logger.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 
 public class DiskFileWriter implements FileWriter {
 
     public DiskFileWriter() {
         for (FolderNames folder : FolderNames.values()) {
-            createFolder(folder.getFolderName());
+            tryCreateFolder(folder.getFolderName());
         }
     }
 
     @Override
     public void writeFile(Path path, InputStream content) {
+        if (Files.notExists(path.getParent())) {
+            tryCreateFolder(path.getParent());
+        }
         tryWriteInputStream(path, content);
     }
 
     @Override
     public void writeFile(Path path, byte[] bytes) {
         tryWriteFile(path, bytes);
-    }
-
-    @Override
-    public void createFolder(Path path) {
-        tryCreateFolder(path);
     }
 
     private void tryCreateFolder(Path path) {
@@ -41,9 +38,10 @@ public class DiskFileWriter implements FileWriter {
 
     private static void tryWriteInputStream(Path path, InputStream content) {
         try {
-            Files.copy(content, path);
+            Files.copy(content, path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             Logger.error("An error occurred while writing a file! ");
+            e.printStackTrace();
         }
     }
 

@@ -7,5 +7,4 @@ public interface FileWriter {
 
     void writeFile(Path path, InputStream content);
     void writeFile(Path path, byte[] bytes);
-    void createFolder(Path path);
 }

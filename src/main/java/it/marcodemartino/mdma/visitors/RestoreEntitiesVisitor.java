@@ -23,7 +23,6 @@ public class RestoreEntitiesVisitor implements EntityVisitor {
 
     @Override
     public void visit(Tree tree) {
-        fileWriter.createFolder(Paths.get(tree.getPath()));
         for (Blob blob : tree.getBlobs()) {
             visit(blob);
         }
