@@ -41,7 +41,7 @@ class CommitsHandlerTest {
         SaveEntitiesVisitor saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter);
         RestoreEntitiesVisitor restoreEntitiesVisitor = new RestoreEntitiesVisitor(fileWriter);
 
-        commitsHandler = new CommitsHandler(commitBuilder, saveEntitiesVisitor, fileReader, restoreEntitiesVisitor);
+        commitsHandler = new CommitsHandler(commitBuilder, fileReader, restoreEntitiesVisitor);
     }
 
     @Test
