@@ -38,8 +38,8 @@ class CommitsHandlerTest {
         Builder<Tree> treeBuilder = new TreeBuilder(fileReader, hashing, blobBuilder);
         CommitBuilder commitBuilder = new CommitBuilder(fileReader, hashing, treeBuilder);
 
-        SaveEntitiesVisitor saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter);
-        RestoreEntitiesVisitor restoreEntitiesVisitor = new RestoreEntitiesVisitor(fileWriter);
+        SaveEntitiesVisitor saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter, fileReader);
+        RestoreEntitiesVisitor restoreEntitiesVisitor = new RestoreEntitiesVisitor(fileWriter, fileReader);
 
         commitsHandler = new CommitsHandler(commitBuilder, fileReader, restoreEntitiesVisitor);
     }

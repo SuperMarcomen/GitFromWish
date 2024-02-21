@@ -54,8 +54,8 @@ class SaveEntitiesVisitorTest {
 
         String content1 = "mammt, fratt e sort";
         String content2 = "ich mehr";
-        item = new Blob(hashing.hash(content1.getBytes()), new ByteArrayInputStream(content1.getBytes()), "folder1/file1.txt");
-        subitem = new Blob(hashing.hash(content2.getBytes()), new ByteArrayInputStream(content2.getBytes()), "folder2/file2.txt");
+        item = new Blob(hashing.hash(content1.getBytes()), "folder1/file1.txt");
+        subitem = new Blob(hashing.hash(content2.getBytes()), "folder2/file2.txt");
         // I'm sorry... This is a war crime, but it's late and I need to test this
         subfolder = new Tree(
                 Tree.generateHash(hashing, List.of(subitem), Collections.emptyList()),
@@ -80,7 +80,7 @@ class SaveEntitiesVisitorTest {
         referenceTracker.addTree(commit.getMainTree().getName(), commit.getMainTree());
 
         FileWriter fileWriter = new DiskFileWriter();
-        saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter);
+        saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter, fileReader);
     }
 
 
