@@ -23,15 +23,16 @@ public class Tree extends MDMAPathEntity {
 
     @Override
     public String print() {
-        return print(blobs.values(), trees.values());
+        return print(getPath(), blobs.values(), trees.values());
     }
 
-    public static String generateHash(Hashing hashing, Collection<Blob> blobsList, Collection<Tree> treesList) {
-        return hashing.hash(print(blobsList, treesList).getBytes());
+    public static String generateHash(Hashing hashing, String path, Collection<Blob> blobsList, Collection<Tree> treesList) {
+        return hashing.hash(print(path, blobsList, treesList).getBytes());
     }
 
-    private static String print(Collection<Blob> blobsList, Collection<Tree> treesList) {
+    private static String print(String path, Collection<Blob> blobsList, Collection<Tree> treesList) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(path).append(System.lineSeparator());
         blobsList.forEach(blob -> stringBuilder.append(blob.print()).append(System.lineSeparator()));
         treesList.forEach(tree -> stringBuilder.append(tree.flatPrint()).append(System.lineSeparator()));
         return stringBuilder.toString().trim();

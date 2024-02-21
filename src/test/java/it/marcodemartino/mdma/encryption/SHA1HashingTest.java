@@ -21,6 +21,13 @@ class SHA1HashingTest {
     }
 
     @Test
+    void hashFile() {
+        Hashing hashing = new SHA1Hashing();
+        FileReader fileReader = new DiskFileReader();
+        assertEquals("40bd001563085fc35165329ea1ff5c5ecbdbbeef", hashing.hash(fileReader.readFile(Paths.get("C:\\Users\\marco\\IdeaProjects\\TelegramCloudStorage\\Client\\123.txt"))));
+    }
+
+    @Test
     @Disabled("Would take too long and is not necessary")
     void bigFileHash() throws IOException {
         Runtime runtime = Runtime.getRuntime();

@@ -58,13 +58,13 @@ class SaveEntitiesVisitorTest {
         subitem = new Blob(hashing.hash(content2.getBytes()), "folder2/file2.txt");
         // I'm sorry... This is a war crime, but it's late and I need to test this
         subfolder = new Tree(
-                Tree.generateHash(hashing, List.of(subitem), Collections.emptyList()),
+                Tree.generateHash(hashing, "folder2", List.of(subitem), Collections.emptyList()),
                 "folder2",
                 List.of(subitem),
                 Collections.emptyList()
         );
         folder = new Tree(
-                Tree.generateHash(hashing, List.of(item), List.of(subfolder)),
+                Tree.generateHash(hashing, "folder1", List.of(item), List.of(subfolder)),
                 "folder1",
                 List.of(item),
                 List.of(subfolder)
