@@ -10,7 +10,7 @@ class RestoreEntitiesVisitorTest {
 
     @BeforeAll
     static void init() {
-        FileWriter fileWriter = new DiskFileWriter();
+        FileWriter fileWriter = new DiskFileWriter(true);
         FileReader fileReader = new DiskFileReader();
         restoreEntitiesVisitor = new RestoreEntitiesVisitor(fileWriter, fileReader);
     }

@@ -9,7 +9,8 @@ import java.nio.file.*;
 
 public class DiskFileWriter implements FileWriter {
 
-    public DiskFileWriter() {
+    public DiskFileWriter(boolean createDefaultFolders) {
+        if (!createDefaultFolders) return;
         for (FolderNames folder : FolderNames.values()) {
             tryCreateFolder(folder.getFolderName());
         }

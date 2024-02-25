@@ -4,7 +4,7 @@ import it.marcodemartino.mdma.builders.CommitBuilder;
 import it.marcodemartino.mdma.entities.*;
 import it.marcodemartino.mdma.io.FileReader;
 import it.marcodemartino.mdma.reconstructors.*;
-import it.marcodemartino.mdma.visitors.RestoreEntitiesVisitor;
+import it.marcodemartino.mdma.visitors.EntityVisitor;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,9 +17,9 @@ public class CommitsHandler {
     private final ReferenceTracker referenceTracker;
     private final CommitReconstructor commitReconstructor;
     private final FileReader fileReader;
-    private final RestoreEntitiesVisitor restoreEntitiesVisitor;
+    private final EntityVisitor restoreEntitiesVisitor;
 
-    public CommitsHandler(CommitBuilder commitBuilder, FileReader fileReader, RestoreEntitiesVisitor restoreEntitiesVisitor) {
+    public CommitsHandler(CommitBuilder commitBuilder, FileReader fileReader, EntityVisitor restoreEntitiesVisitor) {
         this.commits = new HashMap<>();
         this.commitBuilder = commitBuilder;
         this.referenceTracker = new ReferenceTracker();
@@ -30,9 +30,13 @@ public class CommitsHandler {
         this.fileReader = fileReader;
     }
 
+    public void restoreCommit(Commit commit) {
+        commit.accept(restoreEntitiesVisitor);
+    }
+
     public void restoreCommit(String hash) {
         Commit commit = commits.get(hash);
-        commit.accept(restoreEntitiesVisitor);
+        restoreCommit(commit);
     }
 
     public void loadCommits() {

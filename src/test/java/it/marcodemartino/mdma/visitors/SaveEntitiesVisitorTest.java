@@ -79,7 +79,7 @@ class SaveEntitiesVisitorTest {
         referenceTracker = new ReferenceTracker();
         referenceTracker.addTree(commit.getMainTree().getName(), commit.getMainTree());
 
-        FileWriter fileWriter = new DiskFileWriter();
+        FileWriter fileWriter = new DiskFileWriter(true);
         saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter, fileReader);
     }
 
