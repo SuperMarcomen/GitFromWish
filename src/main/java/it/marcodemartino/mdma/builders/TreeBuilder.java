@@ -36,7 +36,7 @@ public class TreeBuilder extends Builder<Tree> {
             }
         }
 
-        String treeHash = Tree.generateHash(hashing, path.toAbsolutePath().toString(), blobs, subTrees);
+        String treeHash = Tree.generateHash(hashing, path.toString(), blobs, subTrees);
         return new Tree(treeHash, path.toString(), blobs, subTrees);
     }
 }

@@ -21,7 +21,10 @@ public class ReferenceTracker {
         String[] lines = refs.split(System.lineSeparator());
         for (String line : lines) {
             String[] args = line.split(":");
-            references.addObject(args[0], args[1]);
+            String hash = args[0];
+            // If the path is empty, it means it is the root directory (Where MDMA was executed)
+            String path = args.length > 1 ? args[1] : "";
+            references.addObject(hash, path);
         }
     }
 

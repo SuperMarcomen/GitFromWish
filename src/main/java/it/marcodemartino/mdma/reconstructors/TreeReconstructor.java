@@ -33,7 +33,10 @@ public class TreeReconstructor extends Reconstructor<Tree> {
             switch (args[0]) {
                 case "blob" -> blobs.add(blobReconstructor.reconstruct(args[1]));
                 case "tree" -> trees.add(reconstruct(args[1]));
-                default -> System.err.println("Unrecognized file type in tree: " + hash + ". It was: " + args[1]);
+                default -> {
+                    if (line.equals(path)) break;
+                    throw new IllegalStateException("Unrecognized file type in tree: " + hash + ". It was: " + line);
+                }
             }
         }
         return new Tree(hash, path, blobs, trees);

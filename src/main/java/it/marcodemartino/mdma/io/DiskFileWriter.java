@@ -18,7 +18,7 @@ public class DiskFileWriter implements FileWriter {
 
     @Override
     public void writeFile(Path path, InputStream content) {
-        if (Files.notExists(path.getParent())) {
+        if (path.getParent() != null && Files.notExists(path.getParent())) {
             tryCreateFolder(path.getParent());
         }
         tryWriteInputStream(path, content);

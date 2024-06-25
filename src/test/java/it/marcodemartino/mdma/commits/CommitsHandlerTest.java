@@ -1,18 +1,32 @@
 package it.marcodemartino.mdma.commits;
 
-import it.marcodemartino.mdma.builders.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import it.marcodemartino.mdma.builders.BlobBuilder;
+import it.marcodemartino.mdma.builders.Builder;
+import it.marcodemartino.mdma.builders.CommitBuilder;
+import it.marcodemartino.mdma.builders.TreeBuilder;
 import it.marcodemartino.mdma.encryption.Hashing;
 import it.marcodemartino.mdma.encryption.SHA1Hashing;
 import it.marcodemartino.mdma.entities.Blob;
+import it.marcodemartino.mdma.entities.FolderNames;
 import it.marcodemartino.mdma.entities.Tree;
-import it.marcodemartino.mdma.io.*;
+import it.marcodemartino.mdma.io.DiskFileReader;
+import it.marcodemartino.mdma.io.DiskFileWriter;
+import it.marcodemartino.mdma.io.FileReader;
+import it.marcodemartino.mdma.io.FileWriter;
 import it.marcodemartino.mdma.visitors.RestoreEntitiesVisitor;
-import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-
 class CommitsHandlerTest {
 
     static CommitsHandler commitsHandler;
@@ -41,7 +55,17 @@ class CommitsHandlerTest {
 
     @Test
     @Order(2)
-    void restoreCommit() {
-        commitsHandler.restoreCommit("a670117bec77257dc0f35cd5f3b6142499c0a575");
+    void restoreCommit() throws IOException {
+        String commitHash = getCommitHash().getFileName().toString();
+        commitsHandler.restoreCommit(commitHash);
+    }
+
+    private Path getCommitHash() throws IOException {
+        try (Stream<Path> stream = Files.list(FolderNames.COMMIT.getFolderName())) {
+            return stream
+                .filter(file -> !Files.isDirectory(file))
+                .findFirst()
+                .orElseThrow();
+        }
     }
 }

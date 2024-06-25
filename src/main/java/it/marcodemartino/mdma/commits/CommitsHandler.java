@@ -7,7 +7,6 @@ import it.marcodemartino.mdma.reconstructors.*;
 import it.marcodemartino.mdma.visitors.EntityVisitor;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class CommitsHandler {
@@ -48,9 +47,9 @@ public class CommitsHandler {
         }
     }
 
-    public Commit newCommit(String author) {
+    public Commit newCommit(String author, Path path) {
         commitBuilder.setAuthor(author);
-        Commit commit = commitBuilder.build(Paths.get(""));
+        Commit commit = commitBuilder.build(path);
         referenceTracker.addTree(commit.getMainTree().getName(), commit.getMainTree());
         return commit;
     }

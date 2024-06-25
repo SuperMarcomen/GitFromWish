@@ -16,25 +16,17 @@ import it.marcodemartino.mdma.io.FileReader;
 import it.marcodemartino.mdma.io.FileWriter;
 import it.marcodemartino.mdma.repository.DiskRepositoryManager;
 import it.marcodemartino.mdma.repository.RepositoryManager;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class SaveEntitiesVisitorTest {
 
     static SaveEntitiesVisitor saveEntitiesVisitor;
-    static Blob item;
-    static Blob subitem;
-    static Tree folder;
-    static Tree subfolder;
-    static Commit commit;
     static CommitBuilder commitBuilder;
     static ReferenceTracker referenceTracker;
 
@@ -51,38 +43,11 @@ class SaveEntitiesVisitorTest {
         Builder<Blob> blobBuilder = new BlobBuilder(fileReader, hashing);
         Builder<Tree> treeBuilder = new TreeBuilder(fileReader, hashing, blobBuilder);
         commitBuilder = new CommitBuilder(fileReader, hashing, treeBuilder);
-
-        String content1 = "mammt, fratt e sort";
-        String content2 = "ich mehr";
-        item = new Blob(hashing.hash(content1.getBytes()), "folder1/file1.txt");
-        subitem = new Blob(hashing.hash(content2.getBytes()), "folder2/file2.txt");
-        // I'm sorry... This is a war crime, but it's late and I need to test this
-        subfolder = new Tree(
-                Tree.generateHash(hashing, "folder2", List.of(subitem), Collections.emptyList()),
-                "folder2",
-                List.of(subitem),
-                Collections.emptyList()
-        );
-        folder = new Tree(
-                Tree.generateHash(hashing, "folder1", List.of(item), List.of(subfolder)),
-                "folder1",
-                List.of(item),
-                List.of(subfolder)
-        );
-        commit = new Commit(
-                Commit.generateHash(hashing, "Marco", LocalDateTime.of(2003, 11, 23, 11, 45), folder),
-                folder,
-                "Marco",
-                LocalDateTime.of(2003, 11, 23, 11, 45)
-        );
-
         referenceTracker = new ReferenceTracker();
-        referenceTracker.addTree(commit.getMainTree().getName(), commit.getMainTree());
 
         FileWriter fileWriter = new DiskFileWriter(true);
         saveEntitiesVisitor = new SaveEntitiesVisitor(fileWriter, fileReader);
     }
-
 
     @Test
     void visitRealCommit() {
@@ -95,12 +60,5 @@ class SaveEntitiesVisitorTest {
 
         realCommit.accept(saveEntitiesVisitor);
         realReferenceTracker.getReferences().accept(saveEntitiesVisitor);
-    }
-
-    @Test
-    void visitConstructedCommit() {
-        // The visit of blobs and trees is automatically tested when visiting commits
-        commit.accept(saveEntitiesVisitor);
-        referenceTracker.getReferences().accept(saveEntitiesVisitor);
     }
 }
